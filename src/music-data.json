@@ -27,15 +27,6 @@
       "imageUrl": "https://i.scdn.co/image/ab67616d0000b2736c62df3fa967ac4382b54147"
     },
     {
-      "id": "4",
-      "title": "Living in the Shadows",
-      "artist": "Matthew Perryman Jones",
-      "album": "(Single)",
-      "year": 2016,
-      "isSoldOut": false,
-      "imageUrl": "https://i.scdn.co/image/ab67616d0000b27313f1a15c18f40a991691f3d6"
-    },
-    {
       "id": "5",
       "title": "Habibi",
       "artist": "Tamino",
@@ -61,15 +52,6 @@
       "year": 2001,
       "isSoldOut": false,
       "imageUrl": "https://i.scdn.co/image/ab67616d0000b273fc78d57f01d3439af0cd172e"
-    },
-    {
-      "id": "8",
-      "title": "God Was Never On Your Side",
-      "artist": "Motörhead",
-      "album": "Kiss of Death",
-      "year": 2001,
-      "isSoldOut": false,
-      "imageUrl": "https://i.scdn.co/image/ab67616d0000b273ae5941e5e616db0fc4dcd089"
     },
     {
       "id": "9",
