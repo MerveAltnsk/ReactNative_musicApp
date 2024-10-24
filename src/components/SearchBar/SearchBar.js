@@ -5,7 +5,7 @@ import styles from "./SearchBar.style";
 const SearchBar = (props) => {
     return(
         <View style={styles.container}>
-            <TextInput placeholder="Search..." onChangeText={props.onSearch} />
+            <TextInput placeholder="    Search..." onChangeText={props.onSearch} />
         </View>
     );
 }
