@@ -1,0 +1,1 @@
+Patika.dev News App Çalışması Custom Cumponent çalışması 2
