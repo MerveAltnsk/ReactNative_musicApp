@@ -1,69 +1,109 @@
-import React, { useState } from "react";
-import { StyleSheet, Text, View, SafeAreaView, FlatList } from "react-native";
-import SearchBar from "./components/SearchBar";
-import SongCard from "./components/SongCard";
-import SoldOut from "./components/SoldOut";
-import music_data from "./music-data.json";
+/* eslint-disable react/jsx-no-comment-textnodes */
+import React, { useState } from 'react';
+import { ImageBackground } from 'react-native';
 
-export default function App() {
-  const [list, setList] = useState(music_data);
+import { View, StyleSheet, Text } from 'react-native';
+import ToDoInput from './components/ToDoCard/ToDoInput';
+import ToDoList from './components/ToDoCard/ToDoList';
 
-  function showOnlySoldOut() {
-    setList(music_data.filter((sold) => sold.isSoldOut));
-    setFocusSold(!focusSold);
-    setFocusAll(focusSold);
-  }
+function App() {
+  const [count, setCount] = useState(0);
+  const [taskItems, setTaskItems] = useState([]);
+  const [task, setTask] = useState('');
 
-  const [focusSold, setFocusSold] = useState(false);
+  const handleAddTask = () => {
+    if (task.trim() === '') return; // Boş görev eklenmesini önle
 
-  function showAll() {
-    setList(music_data);
-    setFocusAll(!focusAll);
-    setFocusSold(focusAll);
-  }
+    const newTask = {
+      text: task,
+      completed: false,
+    };
 
-  const [focusAll, setFocusAll] = useState(true);
-
-  const renderItem = ({ item }) => <SongCard song={item} />;
-  const renderSeperatorItem = <View style={styles.seperator}></View>;
-  const handleSearch = (text) => {
-    const filteredList = music_data.filter((song) => {
-      const searchedText = text.toLowerCase();
-      const currentTitle = song.title.toLowerCase();
-      return currentTitle.indexOf(searchedText) > -1;
-    });
-    setList(filteredList);
+    setTaskItems([...taskItems, newTask]);
+    setTask('');
+    setCount(count + 1); // Yeni görev eklenince sayacı arttır
   };
+
+  const handleDeleteTask = index => {
+    const newTaskItems = taskItems.filter((_, i) => i !== index); // Görevi listeden çıkar
+    setTaskItems(newTaskItems);
+
+    // Silinen görevin tamamlanma durumu kontrolü
+    if (!taskItems[index].completed) {
+      setCount(count - 1); // Silinen görev tamamlanmamışsa sayacı düşür
+    }
+  };
+            
+  const handleCompleteTask = index => {
+    const newTaskItems = [...taskItems];
+    newTaskItems[index].completed = !newTaskItems[index].completed;
+
+    // Görev tamamlandığında veya tamamlanmadığında sayacı güncelle
+    if (newTaskItems[index].completed) {
+      setCount(count - 1); // Görev tamamlandığında sayacı azalt
+    } else {
+      setCount(count + 1); // Görev tekrar aktif hale geldiğinde sayacı arttır
+    }
+
+    setTaskItems(newTaskItems);
+  };
+
   return (
-    <SafeAreaView style={styles.container}>
-      <SearchBar onSearch={handleSearch} />
-      <View style={styles.filter_container}>
-        <SoldOut title="All" onPress={showAll} isFocus={focusAll} />
-        <SoldOut
-          title="Sold Out"
-          onPress={showOnlySoldOut}
-          isFocus={focusSold}
+    <ImageBackground 
+    source={require('./Assets/Images/img2.png')} // Resmin doğru yolu
+    style={styles.container}
+    >
+      <View style={styles.top_container}>
+        <Text style={styles.title}>To Do</Text>
+        <Text style={styles.title_count}>{count}</Text>
+      </View>
+
+      <ToDoList 
+        taskItems={taskItems} 
+        handleCompleteTask={handleCompleteTask}
+        handleDeleteTask={handleDeleteTask}
+      />
+        
+      <View style={styles.bottom_container}>
+        <ToDoInput 
+          task={task} 
+          setTask={setTask}
+          handleAddTask={handleAddTask}
         />
       </View>
-      <FlatList
-        data={list}
-        renderItem={renderItem}
-        ItemSeparatorComponent={renderSeperatorItem}
-      />
-    </SafeAreaView>
+    </ImageBackground>
   );
 }
+
+export default App;
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    marginTop: 50,
+    marginTop: 20,
+    backgroundColor: '#F5F5F5',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
-  seperator: {
-    borderWidth: 1,
-    borderColor: "#ececec",
-  },
-  filter_container: {
+  top_container: {
     flexDirection: "row",
+    justifyContent: "space-between",
+    marginHorizontal: 100,
   },
+  title: {
+    margin: 10,
+    fontSize: 30,
+    fontWeight: "bold",
+    color: "#50b813",
+    marginRight: 100,
+  },
+  title_count: {
+    margin: 10,
+    fontSize: 30,
+    fontWeight: "bold",
+    color: "#a200ff",
+  },
+  bottom_container: {
+    justifyContent: "flex-end",
+  }
 });
